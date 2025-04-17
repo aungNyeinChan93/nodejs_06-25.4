@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const { log } = require('console');
 
 // join
 const fullPath = path.join(__dirname, '../public/src/', 'test.txt');
@@ -9,7 +10,9 @@ console.log(`this is fullPath : ${fullPath}`);
 fs.writeFile(fullPath, "this is path moduel testing", { encoding: 'utf-8' }, (err) => {
     if (!err) {
         console.log('File Saved!');
+        return;
     }
+
 })
 
 fs.readFile(fullPath, { encoding: 'ascii' }, (err, data) => {
@@ -54,3 +57,11 @@ console.log(`this is real file path : ${path.isAbsolute(fullPath)}`);
 
 // normalize
 console.log(path.normalize('/test/api/user//:id')); // \test\api\user\:id
+
+
+// console.log(__dirname);
+// console.log(__filename);
+// console.log(path.join(path.dirname(__dirname)), __filename);
+
+
+

@@ -1,6 +1,6 @@
 const { log } = require('console')
 const os = require('os')
-const { exec } = require('child_process');
+const { exec, spawn } = require('child_process');
 
 // log(`arch : ${os.arch()}`)
 // log(os.cpus())
@@ -29,20 +29,54 @@ const systemSummary = {
 };
 
 console.log(systemSummary);
-// console.log(typeof os.cpus()[0].model);
-// console.log(typeof console);
 
-const shutDown = () => {
-
-    exec('shutdown /s /t 0', (error, stdout, stderr) => {
-        if (error) {
-            console.error(`Error: ${error.message}`);
-            return;
-        }
-        console.log('Shutdown initiated (Windows)');
-    });
-}
 
 setTimeout(() => {
-    // shutDown()
+    // cmd.shutDown()
+    cmd.show();
+    cmd.ping('google.com')
 }, 3000)
+
+
+const cmd = {
+    shutDown() {
+        exec('shutdown /s /t 0', (error, stdout, stderr) => {
+            if (error) {
+                console.error(`Error: ${error.message}`);
+                return;
+            }
+            console.log('Shutdown initiated (Windows)');
+        });
+    },
+    show() {
+        exec('dir', (error, stdout, stderr) => {
+            if (error) {
+                console.error('Error:', error.message);
+                return;
+            }
+            if (stderr) {
+                console.error('stderr:', stderr);
+                return;
+            }
+            console.log('stdout:', stdout);
+        });
+    },
+    ping(domain) {
+        const child = spawn('ping', [domain]);
+
+        child.stdout.on('data', (data) => {
+            console.log(`stdout: ${data}`);
+        });
+
+        child.stderr.on('data', (data) => {
+            console.error(`stderr: ${data}`);
+        });
+
+        child.on('close', (code) => {
+            console.log(`child process exited with code ${code}`);
+        });
+    }
+}
+
+
+
