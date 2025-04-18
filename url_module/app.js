@@ -1,5 +1,3 @@
-const { deepStrictEqual } = require('assert');
-const { log } = require('console');
 const { URL, URLSearchParams, fileURLToPath, parse, format } = require('url')
 
 // URL
@@ -61,6 +59,20 @@ const allParams = () => {
     return result;
 }
 console.log(allParams());
+
+let testObj = {
+    name: 'aung',
+    age: 21,
+    gender: 'male'
+};
+
+console.log(Object.entries(testObj));
+
+let res = {}
+for (const [key, value] of Object.entries(testObj)) {
+    res[key] = value
+}
+console.log(res);
 
 
 

@@ -9,5 +9,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs"
+  "type": "commonjs",
+  "dependencies": {
+    "jsonwebtoken": "^9.0.2",
+    "lodash": "^4.17.21"
+  }
 }
