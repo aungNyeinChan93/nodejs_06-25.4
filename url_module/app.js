@@ -1,4 +1,5 @@
 const { URL, URLSearchParams, fileURLToPath, parse, format } = require('url')
+const url = require('url');
 
 // URL
 const dashboard_url = new URL('http://127.0.0.1:8000/api/dashboard?name=user#blog');
@@ -76,3 +77,5 @@ console.log(res);
 
 
 
+const test = url.parse('http://localhost:3000/api/posts?name=aung&age=21', true);
+console.log(test);
