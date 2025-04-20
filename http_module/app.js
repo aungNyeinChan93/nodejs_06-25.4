@@ -24,6 +24,6 @@ const init = () => {
             console.log(JSON.parse(data));
         })
     }).on('error', (err) => {
-        console.error(err.message)
+        console.error(`Err: ${err.message}`)
     })
 }

@@ -1,6 +1,7 @@
 import { createHash, createSign } from 'crypto'
 import fs from 'fs';
 import jwt from 'jsonwebtoken';
+import path from 'path';
 
 
 const Base = {
@@ -42,8 +43,41 @@ const JWT = {
     })
 }
 
+const Stream = {
+    read: (dir, filename) => {
+        return new Promise((resolve, reject) => {
+            let result = "";
+            let readStream = fs.createReadStream(path.join(dir, filename), { encoding: 'utf-8' });
+            readStream.on('data', (chunk) => {
+                result += chunk;
+            });
+            readStream.on('end', () => {
+                console.log('Read Success =>', JSON.stringify(result));
+                resolve(result);
+            });
+            readStream.on('error', (err) => {
+                console.log(err);
+                reject(err);
+            });
+        });
+    },
+    write(dir, fileName, payload) {
+        return new Promise((resolve, reject) => {
+            let writeStream = fs.createWriteStream(path.join(dir, fileName), { encoding: 'utf-8' });
+            writeStream.write(JSON.stringify(payload));
+            writeStream.end(() => {
+                console.log('Write Success!');
+                resolve(true)
+            })
+            writeStream.on('error', (err) => {
+                reject(err.message)
+            })
+        })
+    }
+}
+
 const defaultExport = 'this is default export'
 
-export { Base, Response, JWT }
+export { Base, Response, JWT, Stream }
 
 export default defaultExport;
